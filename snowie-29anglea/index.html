@@ -2234,7 +2234,7 @@ html,body{margin:0;background:#F2EEE6}
 
   /* ═══ CONFIG — edit per funnel ═══ */
   var POPUP_KEY='nhE9fVSGdT';                                   // 1) #hl_main_popup-<POPUP_KEY>
-  var INNER_ID='';                    // 2) optional inner order-step id ('' to skip)
+  var INNER_ID='#two-setp-order-UFuRjH7kTq';   // 2) inner order-step id (read off the live page)
   var NATIVE=['.fck-native-trigger',          // add this class to the hidden GHL "Open Popup" button
               '#button-REPLACE_ME_btn','#button-REPLACE_ME'];  // <-- put THIS page's real Open-Popup button id here                          //    + manual escape-hatch class
   /* ════════════════════════════════ */
@@ -2285,6 +2285,16 @@ html,body{margin:0;background:#F2EEE6}
       pop.removeAttribute('hidden');
       if(pop.style && pop.style.display==='none') pop.style.removeProperty('display');
       try{ if(visible(pop)) pop.setAttribute('aria-hidden','false'); }catch(e){}
+    }catch(e){}
+    /* GHL's backdrop is a SEPARATE #overlay node it toggles with .show + display:block.
+       Without it the popup can render with no scrim (and clicks fall through to the page). */
+    try{
+      var d=(pop.ownerDocument||document), ov=d.getElementById('overlay');
+      if(ov){
+        ov.classList.add('show');
+        if(ov.style && ov.style.display==='none') ov.style.removeProperty('display');
+        if(!ov.style.display) ov.style.display='block';
+      }
     }catch(e){}
   }
   function clickNative(){
